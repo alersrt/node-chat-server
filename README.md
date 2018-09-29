@@ -1,6 +1,6 @@
 # Simple chat
 
-This is the simple chat-server worked via websocked. The server has the next features:
+This is the simple chat-server worked via websocket. The server has the next features:
 
 - supporting of conversations in channels
 - private messages
