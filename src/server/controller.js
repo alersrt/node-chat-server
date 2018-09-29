@@ -18,7 +18,7 @@ ws.broadcast = async (channel, data) => {
     let client = await connections.get(participant.id);
 
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(data));
+      typeof data === 'object' ? client.send(JSON.stringify(data)) : client.send(data);
     }
   });
 };
@@ -36,7 +36,7 @@ ws.on('connection', async (socket) => {
   });
 
   socket.on('message', async (dataTransfer) => {
-    let data = JSON.parse(dataTransfer)
+    let data = JSON.parse(dataTransfer);
     let target = data.target;
     if (target.startsWith('#')) {
       ws.broadcast(target.substr(1), socket.id + ': ' + data.message);
