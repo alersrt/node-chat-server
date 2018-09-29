@@ -1,0 +1,11 @@
+{
+  "name": "node-chat",
+  "version": "0.1.0",
+  "dependencies": {
+    "ws": "6.0.0",
+    "uuid": "3.3.2"
+  },
+  "devDependencies": {
+    "mocha": "5.2.0"
+  }
+}
