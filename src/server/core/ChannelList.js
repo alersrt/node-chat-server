@@ -1,24 +1,25 @@
-module.exports = new function() {
+module.exports.channels = new function() {
   const channels = [];
 
-  this.create = function(name) {
+  this.create = async function(name) {
     channels.push({name: name, participants: []});
   };
 
-  this.destroy = function(name) {
+  this.destroy = async function(name) {
     channels.splice(channels.findIndex(channel => channel.name === name), 1);
   };
 
-  this.getParticipants = function(name) {
+  this.getParticipants = async function(name) {
     return channels.filter(channel => channel.name === name)[0].participants;
   };
 
-  this.join = function(channelName, clientId) {
-    this.getParticipants(channelName).push({id: clientId});
+  this.join = async function(channelName, clientId) {
+    let participants = await this.getParticipants(channelName);
+    participants.push({id: clientId});
   };
 
-  this.left = function(channelName, clientId) {
-    this.getParticipants(channelName)
-        .splice(this.getParticipants(channelName).findIndex(participant => participant.id === clientId), 1);
+  this.leave = async function(channelName, clientId) {
+    let participants = await this.getParticipants(channelName);
+    participants.splice(participants.findIndex(participant => participant.id === clientId), 1);
   };
 };
