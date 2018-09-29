@@ -9,7 +9,13 @@ const port = !!process.env.CHAT_SERVER_PORT
     : 8081;
 const ws = new WebSocket.Server({port: port});
 
-const connections = {};
+const connections = new function() {
+  const list = {};
+
+  this.add = (id, socket) => list[id] = socket;
+  this.remove = (id) => delete list[id];
+  this.get = (id) => list[id];
+};
 
 ws.broadcast = (data) => ws.clients.forEach(client => client.send(data));
 
@@ -17,11 +23,11 @@ ws.on('connection', async (socket, request) => {
   let id = uuid();
 
   socket.id = id;
-  connections[socket.id] = socket;
+  connections.add(id, socket);
   ws.broadcast('participant [' + id + '] has join');
 
   socket.on('close', async (code, reason) => {
-    delete connections[socket.id];
+    connections.remove(id);
     ws.broadcast('participant [' + id + '] has left (code: ' + code + ')');
   });
 
