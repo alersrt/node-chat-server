@@ -2,7 +2,7 @@ const port = !!process.env.CHAT_SERVER_PORT ? process.env.CHAT_SERVER_PORT : 808
 
 const uuid = require('uuid/v4');
 const WebSocket = require('ws');
-const {event} = require('./events');
+const {event} = require('./constants');
 
 const {connections} = require('./core/ConnectionList');
 const {channels} = require('./core/ChannelList');

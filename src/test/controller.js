@@ -7,25 +7,11 @@ const ws1 = new WebSocket('ws://localhost:8081/chat');
 const ws2 = new WebSocket('ws://localhost:8081/chat');
 
 ws1.on('message', async (dataTransfer) => {
-  let data;
-  try {
-    data = JSON.parse(dataTransfer);
-  } catch {
-    data = dataTransfer;
-  }
-  console.log(data);
-  typeof data !== 'object' ? expect(data).to.include('Hello') : null;
+  console.log('WS1 ===> ' + dataTransfer);
 });
 
 ws2.on('message', async (dataTransfer) => {
-  let data;
-  try {
-    data = JSON.parse(dataTransfer);
-  } catch {
-    data = dataTransfer;
-  }
-  console.log(data);
-  typeof data !== 'object' ? expect(data).to.include('Hello') : null;
+  console.log('WS2 ===> ' + dataTransfer);
 });
 
 ws1.on('open', async () => {
