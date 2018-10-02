@@ -2,15 +2,19 @@
   "name": "node-chat",
   "version": "0.1.0",
   "dependencies": {
-    "ws": "6.0.0",
-    "uuid": "3.3.2"
+    "express": "4.16.3",
+    "express-ws": "4.0.0",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "uuid": "3.3.2",
+    "ws": "6.0.0"
   },
   "devDependencies": {
     "chai": "4.2.0",
     "mocha": "5.2.0"
   },
   "scripts": {
-    "start": "node ./src/server/controller.js",
+    "start": "node ./src/server/app.js",
     "test": "mocha ./src/test/"
   }
 }
