@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  chat-server:
+    container_name: ${COMPOSE_PROJECT_NAME}-${SERVICE_CONTAINER_NAME}
+    image: ${COMPOSE_IMAGE_NAME}
+    build: .
+    depends_on:
+    - postgresql
+    network_mode: "service:postgresql"
+    environment:
+    - CS_POSTGRES_USERNAME=postgres
+    - CS_POSTGRES_PASSWORD=postgres
+    - CS_POSTGRES_URL=jdbc:postgresql://localhost:5432/testdb
+
+  postgresql:
+    image: postgres:alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-${DATABASE_CONTAINER_NAME}
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=testdb
+    volumes:
+    - "$PWD/database:/var/lib/postgresql/data"
+    ports:
+    - "80:8081" # service's default port
+    - "5432:5432" # postgresql port
+    env_file:
+    - .env
