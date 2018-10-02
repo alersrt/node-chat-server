@@ -8,6 +8,8 @@ This is the simple chat-server worked via websocket. The server has the next fea
 
 ## Environment variables
 
+- `FACEBOOK_CLIENT_ID` - identifier of the facebook's application
+- `FACEBOOK_CLIENT_SECRET` - facebook's application token
 - `CS_POSTGRES_URL` - url for PostgreSQL database, default value is `jdbc:postgresql://localhost:5432/testdb`
 - `CS_POSTGRES_USERNAME` - username of the database, default value is `postgres`
 - `CS_POSTGRES_PASSWORD` - password for this username, default value is `postgres`
