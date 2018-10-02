@@ -6,6 +6,12 @@ This is the simple chat-server worked via websocket. The server has the next fea
 - private messages
 - authentication via social networks
 
+## Environment variables
+
+- `CS_POSTGRES_URL` - url for PostgreSQL database, default value is `jdbc:postgresql://localhost:5432/testdb`
+- `CS_POSTGRES_USERNAME` - username of the database, default value is `postgres`
+- `CS_POSTGRES_PASSWORD` - password for this username, default value is `postgres`
+
 ## Protocol description
 
 ### Commands
