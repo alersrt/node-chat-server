@@ -6,10 +6,18 @@ This is the simple chat-server worked via websocket. The server has the next fea
 - private messages
 - authentication via social networks
 
+## Certificates
+
+You should generate certs with help of the next command (should be run in root dir of the project):
+```
+$ mkdir -p ssl && openssl req -nodes -new -x509 -keyout ssl/server.key -out ssl/server.cert
+```
+
 ## Environment variables
 
 - `FACEBOOK_CLIENT_ID` - identifier of the facebook's application
 - `FACEBOOK_CLIENT_SECRET` - facebook's application token
+- `FACEBOOK_CALLBACK_URL` - valid OAuth redirect URI, default value is `https://localhost:8081/auth/facebook/callback`
 - `CS_POSTGRES_URL` - url for PostgreSQL database, default value is `jdbc:postgresql://localhost:5432/testdb`
 - `CS_POSTGRES_USERNAME` - username of the database, default value is `postgres`
 - `CS_POSTGRES_PASSWORD` - password for this username, default value is `postgres`

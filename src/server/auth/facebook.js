@@ -1,5 +1,8 @@
 const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
 const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
+const FACEBOOK_CALLBACK_URL = !!process.env.FACEBOOK_CALLBACK_URL
+    ? !!process.env.FACEBOOK_CALLBACK_URL
+    : 'https://localhost:8081/auth/facebook/callback';
 
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -22,7 +25,7 @@ passport.deserializeUser(async (userId, done) => {
 passport.use(new FacebookStrategy({
       clientID: FACEBOOK_CLIENT_ID,
       clientSecret: FACEBOOK_CLIENT_SECRET,
-      callbackURL: 'https://localhost:8081/auth/facebook/callback',
+      callbackURL: FACEBOOK_CALLBACK_URL,
     },
     async function(accessToken, refreshToken, profile, done) {
       try {
