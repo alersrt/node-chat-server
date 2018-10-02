@@ -22,7 +22,7 @@ passport.deserializeUser(async (userId, done) => {
 passport.use(new FacebookStrategy({
       clientID: FACEBOOK_CLIENT_ID,
       clientSecret: FACEBOOK_CLIENT_SECRET,
-      callbackURL: '/auth/facebook/callback',
+      callbackURL: 'https://localhost:8081/auth/facebook/callback',
     },
     async function(accessToken, refreshToken, profile, done) {
       try {

@@ -1,28 +1,46 @@
 const uuid = require('uuid/v4');
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+const jwt = require('jsonwebtoken');
 const express = require('express');
-const passport = require('passport');
+const passport = require('./auth/facebook');
 const port = 8081;
 
 const app = express();
 const expressWs = require('express-ws')(app);
 
-const auth = require('./router/authRouter');
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-let emptyRouter = express.Router().ws('/', (ws, req) => {});
+app.get('/auth/facebook', passport.authenticate('facebook', {session: false}));
 
-app.use('/auth', auth);
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+      failureRedirect: '/error',
+      session: false,
+    }),
+    (req, res) => {
+      console.log(req.user);
+      if (!req.user) {
+        return res.sendStatus(401);
+      }
+      let token = jwt.sign({id: req.user.id}, 'my-secret', {expiresIn: 60 * 120});
+      res.setHeader('x-auth-token', token);
+      res.status(200).send({id: req.user.id});
+    });
 
-let chatRouter = express.Router().ws('/:chatId', async (ws, req) => {
+app.ws('/chat', (ws, req) => {});
+app.ws('/chat/:chatId', async (ws, req) => {
   ws.on('message', async (data) => {
-
   });
 });
 
-app.use('/chat', emptyRouter, chatRouter);
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
-});
+https
+    .createServer({
+      key: fs.readFileSync(path.resolve(__dirname, '../../ssl/server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, '../../ssl/server.cert')),
+    }, app)
+    .listen(port, () => {
+      console.log(`Example app listening on port ${port}!`);
+    });
