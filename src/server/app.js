@@ -8,7 +8,12 @@ const passport = require('./auth/facebook');
 const port = 8081;
 
 const app = express();
-const expressWs = require('express-ws')(app);
+const httpsServer = https
+    .createServer({
+      key: fs.readFileSync(path.resolve(__dirname, '../../ssl/server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, '../../ssl/server.cert')),
+    }, app);
+const expressWs = require('express-ws')(app, httpsServer);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -21,7 +26,6 @@ app.get('/auth/facebook/callback',
       session: false,
     }),
     (req, res) => {
-      console.log(req.user);
       if (!req.user) {
         return res.sendStatus(401);
       }
@@ -36,11 +40,6 @@ app.ws('/chat/:chatId', async (ws, req) => {
   });
 });
 
-https
-    .createServer({
-      key: fs.readFileSync(path.resolve(__dirname, '../../ssl/server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, '../../ssl/server.cert')),
-    }, app)
-    .listen(port, () => {
-      console.log(`Example app listening on port ${port}!`);
-    });
+httpsServer.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`);
+});
