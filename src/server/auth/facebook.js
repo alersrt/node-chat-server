@@ -1,7 +1,7 @@
 const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
 const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
 const FACEBOOK_CALLBACK_URL = !!process.env.FACEBOOK_CALLBACK_URL
-    ? !!process.env.FACEBOOK_CALLBACK_URL
+    ? process.env.FACEBOOK_CALLBACK_URL
     : 'https://localhost:8081/auth/facebook/callback';
 
 const passport = require('passport');

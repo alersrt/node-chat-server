@@ -12,6 +12,7 @@ services:
     - CS_POSTGRES_USERNAME=postgres
     - CS_POSTGRES_PASSWORD=postgres
     - CS_POSTGRES_URL=jdbc:postgresql://localhost:5432/testdb
+    - FACEBOOK_CALLBACK_URL=https://localhost/auth/facebook/callback
 
   postgresql:
     image: postgres:alpine
@@ -23,7 +24,7 @@ services:
     volumes:
     - "$PWD/database:/var/lib/postgresql/data"
     ports:
-    - "80:8081" # service's default port
+    - "443:8081" # service's default port
     - "5432:5432" # postgresql port
     env_file:
     - .env
